@@ -259,13 +259,15 @@ brazil				% o último idioma é o principal do documento
 		
 		Os resultados serão demonstrados aos seus respectivos métodos, será também apresentado
 		algumas iterações,
-		o gráfico de rapidez de convergência e os parâmetros usados na resolução.
+		o gráfico de rapidez de convergência e os parâmetros usados na resolução. E haverá comparativos
+		 dos dois métodos usados e qual foi o melhor em termo de rapidez de
+		convergência e precisão.
 		
 		% ----------------------------------------------------------
-		\chapter{Método de Gauss-Jacob}
+		\chapter{Método Iterativos para Sistemas Lineares}
 		% ----------------------------------------------------------
 		
-		O método de Gauss-Jacobi permite obter-se uma solução única para um sistema
+		O método iterativos permite obter-se uma solução única para um sistema
 		$Ax=b, A = (a_{ij} ) $ com 
 		$i,j=1,...,n$ e $det(A) \neq 0$. É denominado iterativo porque fornece uma
 		sequência de raízes aproximadas
@@ -276,6 +278,89 @@ brazil				% o último idioma é o principal do documento
 		para encontrar a primeira solução aproximada, dando início ao processo iterativo
 		do método, porém 
 		só será executado se os critérios de convergência forem atendidos.
+		
+		\section{Critérios de Covergência:}	
+		
+		Os critérios de convergência que envolve o método iterativo de sistemas lineares, são
+		esses:
+		
+		
+		\begin{alineas}
+			\item{\textbf{Critério de Linha:}
+				$$\substack{\max \\ 1 \leq i \leq n} = \sum_{\substack{i = 1 \\ j \neq i}}^{n}
+				|a_{ij}^{*} | < 1 $$
+				Em Python,
+				\begin{lstlisting}
+				max_somatoria = 0
+				for i in range(A[:,0].size):
+				somatoria = 0
+				for j in range(n):
+				somatoria += abs(A[i,j])
+				
+				if(somatoria > max_somatoria):
+				max_somatoria = somatoria
+				
+				if(max_somatoria < 2): 
+				print("Criterio de Linha foi Atendido!")
+				return True\end{lstlisting}
+			}
+			
+			\item{\textbf{Se a matriz for diagonal dominante.}
+				
+				Em Python,
+				\begin{lstlisting}
+diagonais = 0
+for i in range(A[:,0]):
+	if(A[i,i] > A[:,i].sum()-A[i,i] and A[i,i] > A[i,:].sum()-A[i,i]):
+		diagonais +=1
+				
+	if diagonais == n:
+		print('Criterio da Diagonal Dominante Atendido!')
+		return True
+				\end{lstlisting}
+				
+				
+				
+			}
+			\item{\textbf{Critério de Sassenfeld:}
+				$$\substack{\max \\ 1 \leq i \leq n}  \beta_i < 1 $$\hspace{25pt}, onde
+				$$\beta_i = \sum_{j=1}^{i-1} |a_{ij}^{*} | \beta_j + \sum_{j = i + 1}^{n}  |
+				a_{ij}^{*}|$$\\
+				
+				Em Python,
+				\begin{lstlisting}
+				max_sassenfeld = 0
+				bj = [0]
+				for i in range(A[:,0].size):
+				bi = 0
+				if i > 0:
+				for j in range(A[:,0].size - 1):
+				bi += abs(A[i,j]) * bj[j]
+				
+				for j in range(i + 1, n):
+				bi += abs(A[i,j])
+				
+				bj.append(bi)
+				
+				if(bi >  max_sassenfeld):
+				max_sassenfeld = bi
+				
+				if(max_sassenfeld < 1):
+				print('Criterio de Sassenfeld foi Atentido!')
+				return True\end{lstlisting}  
+			}
+		\end{alineas}
+		
+		No algoritmo, para executar os critérios do sistema, apresenta 
+		primeiramente um tratamento, que é a divisão de cada equação pela sua diagonal,
+		para
+		facilitar o algoritmo na verificação do critério e para fins de analise.
+		Nos problemas , todos os critérios são testados respectivamente como condição
+		para
+		execução do método, se um desses critérios forem atendido o método é executado.
+		Se nenhum deles retornar um valor verdadeiro, o algoritmo cessará pois não irá
+		convergir.
+		
 		
 		\section{Valores Iniciais}
 		Primeiramente, para a execução de um sistema pelo método, é 
@@ -424,88 +509,7 @@ brazil				% o último idioma é o principal do documento
 		
 		
 		
-		
-		\section{Critérios de Convergência}
-		Os critérios de convergência que envolve o método iterativo de Gauss-Jacobi, são
-		esses:
-		
-		
-		\begin{alineas}
-			\item{\textbf{Critério de Linha:}
-				$$\substack{\max \\ 1 \leq i \leq n} = \sum_{\substack{i = 1 \\ j \neq i}}^{n}
-				|a_{ij}^{*} | < 1 $$
-				Em Python,
-				\begin{lstlisting}
-				max_somatoria = 0
-				for i in range(A[:,0].size):
-				somatoria = 0
-				for j in range(n):
-				somatoria += abs(A[i,j])
-				
-				if(somatoria > max_somatoria):
-				max_somatoria = somatoria
-				
-				if(max_somatoria < 2): 
-				print("Criterio de Linha foi Atendido!")
-				return True\end{lstlisting}
-			}
-			
-			\item{\textbf{Se a matriz for diagonal dominante.}
-				
-				Em Python,
-				\begin{lstlisting}
-				diagonais = 0
-				for i in range(A[:,0].size):
-				if(A[i,i] > A[:,i].sum()-A[i,i] and A[i,i] > A[i,:].sum()-A[i,i]):
-				diagonais +=1
-				
-				if diagonais == n:
-				print('Criterio da Diagonal Dominante Atendido!')
-				return True
-				\end{lstlisting}
-				
-				
-				
-			}
-			\item{\textbf{Critério de Sassenfeld:}
-				$$\substack{\max \\ 1 \leq i \leq n}  \beta_i < 1 $$\hspace{25pt}, onde
-				$$\beta_i = \sum_{j=1}^{i-1} |a_{ij}^{*} | \beta_j + \sum_{j = i + 1}^{n}  |
-				a_{ij}^{*}|$$\\
-				
-				Em Python,
-				\begin{lstlisting}
-				max_sassenfeld = 0
-				bj = [0]
-				for i in range(A[:,0].size):
-				bi = 0
-				if i > 0:
-				for j in range(A[:,0].size - 1):
-				bi += abs(A[i,j]) * bj[j]
-				
-				for j in range(i + 1, n):
-				bi += abs(A[i,j])
-				
-				bj.append(bi)
-				
-				if(bi >  max_sassenfeld):
-				max_sassenfeld = bi
-				
-				if(max_sassenfeld < 1):
-				print('Criterio de Sassenfeld foi Atentido!')
-				return True\end{lstlisting}  
-			}
-		\end{alineas}
-		
-		No algoritmo, para executar os critérios do sistema, apresenta 
-		primeiramente um tratamento, que é a divisão de cada equação pela sua diagonal,
-		para
-		facilitar o algoritmo na verificação do critério e para fins de analise.
-		Nos problemas , todos os critérios são testados respectivamente como condição
-		para
-		execução do método, se um desses critérios forem atendido o método é executado.
-		Se nenhum deles retornar um valor verdadeiro, o algoritmo cessará pois não irá
-		convergir.
-		
+
 		
 		\section{Algoritmo de Gauss-Jacob}
 		O método, de forma geral, consiste em dado $x_0$, aproximação inicial, 
