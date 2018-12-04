@@ -50,17 +50,17 @@ def jacobi(n, A, b, iterMax, tol, x):
         
 
     
-def crit_convergencia(n):
+def crit_convergencia(n,m):
 
     #Simplificando o sistema
-    for i in range(A[:,0].size):
+    for i in range(m):
         b[i] = b[i]/A[i,i]
         A[i] = A[i]/A[i,i]
         
 
 #######Criterio de Linha       
     max_somatoria = 0
-    for i in range(A[:,0].size):
+    for i in range(m):
         somatoria = 0
         for j in range(n):
             somatoria += abs(A[i,j])
@@ -73,19 +73,20 @@ def crit_convergencia(n):
     
 #######Criterio de Diagonal dominante
     diagonais = 0
-    for i in range(A[:,0].size):
+    for i in range(m):
         if(A[i,i]>A[:,i].sum()-A[i,i] and A[i,i]>A[i,:].sum()-A[i,i]):
             diagonais +=1
     if diagonais == n:
         print('Criterio da Diagonal Dominante Aprovado!')
+	return True
         
 #######Criterio de Sassenfeld
     max_sassenfeld = 0
     bj = [0]
-    for i in range(A[:,0].size):
+    for i in range(m):
         bi = 0
         if i > 0:
-            for j in range(A[:,0].size - 1):
+            for j in range(m - 1):
 
                 bi += abs(A[i,j]) * bj[j]
         
@@ -113,7 +114,8 @@ aray = []
 iterMax = 1000
 tol = 1E-3
 n = A[0,:].size
-if(crit_convergencia(n)):
+m = A[:,0].size
+if(crit_convergencia(n,m)):
     total_iter,sstm = jacobi(n,A,b,iterMax,tol,chute_inicial)
     
     for i in range(n):

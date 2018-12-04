@@ -291,18 +291,18 @@ brazil				% o último idioma é o principal do documento
 				|a_{ij}^{*} | < 1 $$
 				Em Python,
 				\begin{lstlisting}
-				max_somatoria = 0
-				for i in range(A[:,0].size):
-				somatoria = 0
-				for j in range(n):
-				somatoria += abs(A[i,j])
-				
-				if(somatoria > max_somatoria):
-				max_somatoria = somatoria
-				
-				if(max_somatoria < 2): 
-				print("Criterio de Linha foi Atendido!")
-				return True\end{lstlisting}
+max_somatoria = 0
+for i in range(m):
+	somatoria = 0
+	for j in range(n):
+		somatoria += abs(A[i,j])
+
+	if(somatoria > max_somatoria):
+		max_somatoria = somatoria
+
+if(max_somatoria < 2): 
+	print("Criterio de Linha foi Atendido!")
+	return True\end{lstlisting}
 			}
 			
 			\item{\textbf{Se a matriz for diagonal dominante.}
@@ -310,14 +310,13 @@ brazil				% o último idioma é o principal do documento
 				Em Python,
 				\begin{lstlisting}
 diagonais = 0
-for i in range(A[:,0]):
+for i in range(m):
 	if(A[i,i] > A[:,i].sum()-A[i,i] and A[i,i] > A[i,:].sum()-A[i,i]):
 		diagonais +=1
 				
 	if diagonais == n:
 		print('Criterio da Diagonal Dominante Atendido!')
-		return True
-				\end{lstlisting}
+		return True\end{lstlisting}
 				
 				
 				
@@ -329,25 +328,25 @@ for i in range(A[:,0]):
 				
 				Em Python,
 				\begin{lstlisting}
-				max_sassenfeld = 0
-				bj = [0]
-				for i in range(A[:,0].size):
-				bi = 0
-				if i > 0:
-				for j in range(A[:,0].size - 1):
-				bi += abs(A[i,j]) * bj[j]
-				
-				for j in range(i + 1, n):
-				bi += abs(A[i,j])
-				
-				bj.append(bi)
-				
-				if(bi >  max_sassenfeld):
-				max_sassenfeld = bi
-				
-				if(max_sassenfeld < 1):
-				print('Criterio de Sassenfeld foi Atentido!')
-				return True\end{lstlisting}  
+max_sassenfeld = 0
+bj = [0]
+for i in range(m):
+	bi = 0
+	if i > 0:
+		for j in range(m - 1):
+			bi += abs(A[i,j]) * bj[j]
+
+	for j in range(i + 1, n):
+		bi += abs(A[i,j])
+
+	bj.append(bi)
+
+	if(bi >  max_sassenfeld):
+		max_sassenfeld = bi
+
+if(max_sassenfeld < 1):
+	print('Criterio de Sassenfeld foi Atentido!')
+	return True\end{lstlisting}  
 			}
 		\end{alineas}
 		
