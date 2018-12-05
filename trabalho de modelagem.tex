@@ -267,7 +267,7 @@ brazil				% o último idioma é o principal do documento
 		\chapter{Método Iterativos para Sistemas Lineares}
 		% ----------------------------------------------------------
 		
-		O método iterativos permite obter-se uma solução única para um sistema
+		O \textbf{método iterativo}s permite obter-se uma solução única para um sistema
 		$Ax=b, A = (a_{ij} ) $ com 
 		$i,j=1,...,n$ e $det(A) \neq 0$. É denominado iterativo porque fornece uma
 		sequência de raízes aproximadas
@@ -275,9 +275,21 @@ brazil				% o último idioma é o principal do documento
 		como a transformação do 
 		sistema $Ax = b$ para forma $x = Cx + d$ , que a partir dela, lança-se um valor
 		inicial para o sistema, 
-		para encontrar a primeira solução aproximada, dando início ao processo iterativo
-		do método, porém 
-		só será executado se os critérios de convergência forem atendidos.
+		para encontrar a primeira solução aproximada. Antes que os métodos sejam executados, os \textbf{critérios de convergência}
+		precisam ser testados no sistema, para isso,  apresenta 
+		primeiramente um tratamento, que é a divisão de cada equação pela sua diagonal,
+		para
+		facilitar o algoritmo na verificação do critério e para fins de analise.
+		O tratamento no \textit{Python} fica:
+		\begin{lstlisting}
+for i in range(m):
+	b[i] = b[i]/A[i,i]
+	A[i] = A[i]/A[i,i]\end{lstlisting}
+		Nos problemas, todos os critérios são testados respectivamente como condição
+		para
+		execução do método, se um desses critérios forem atendido o método é executado.
+		Se nenhum deles retornar um valor verdadeiro, o algoritmo cessará pois não irá
+		convergir.
 		
 		\section{Critérios de Covergência:}	
 		
@@ -350,15 +362,7 @@ if(max_sassenfeld < 1):
 			}
 		\end{alineas}
 		
-		No algoritmo, para executar os critérios do sistema, apresenta 
-		primeiramente um tratamento, que é a divisão de cada equação pela sua diagonal,
-		para
-		facilitar o algoritmo na verificação do critério e para fins de analise.
-		Nos problemas , todos os critérios são testados respectivamente como condição
-		para
-		execução do método, se um desses critérios forem atendido o método é executado.
-		Se nenhum deles retornar um valor verdadeiro, o algoritmo cessará pois não irá
-		convergir.
+		
 		
 		
 		\section{Valores Iniciais}
