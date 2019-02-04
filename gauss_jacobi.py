@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Nome = Pedro Pacheco Mendes Filho
-Turma = CTEC2017
-Matricula = 201701029
-Professora = Marciana Lima Goes
 Metodo = Metodo iterativo de Gauss Jacobi
+Professora = Marciana Lima Goes
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -115,6 +112,8 @@ iterMax = 1000
 tol = 1E-3
 n = A[0,:].size
 m = A[:,0].size
+
+### Plotagem do Grafico e Execucao do Codigo
 if(crit_convergencia(n,m)):
     total_iter,sstm = jacobi(n,A,b,iterMax,tol,chute_inicial)
     

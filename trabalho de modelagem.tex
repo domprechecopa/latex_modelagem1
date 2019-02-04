@@ -503,15 +503,55 @@ if(max_sassenfeld < 1):
 				coef = A[0,:].size\end{lstlisting}
 			}
 			
-			\item{\textbf{Tratamento da Matriz:}\\
-				
-				
-			}
+
 			
 		\end{alineas}
+		\section{Critério de Parada}
+		\begin{alineas}
+			\item{
+			Os critérios de parada são usados para fim de não manter o algoritmo rodando
+			quando o 
+			resultado já é o bastante preciso e quando, por algum motivo, não alcançar a
+			convergência.
+			Há dois critérios que encerrara a execução do método, são eles:
+			\subitem{\textbf{Máxima Iterações:}\\
+				Será quando o limite de iterações forem atingidas, que poderá ser o caso de
+				não convergência(serve para não sobrecarregar o computador quando não houver
+				convergência).
+			}
+			\subitem{\textbf{Critério de distância(Erro Absoluto):}\\
+				Critério de distância avalia a precisão que o algoritmo chegou a partir do
+				módulo da diferença da iteração atual e da anterior se o valor, porém o erro de
+				cada variável do sistema tem que estar abaixo da tolerância para
+				ser satisfeito:
+				$$d^{(k)} = \substack{\max\\1 \leq i \leq n} |x_{i}^{(k)} - x_{i}^{(k-1)}| <
+				\varepsilon_1$$
+			}
+			
+			Então a condicional para execução do \textit{loop iterativo} do método, se torna
+			em Python:
+			
+			
+			\begin{lstlisting}
+			iterAtual = 0 #Zerando as Iteracoes
+			erro = 2      #Erro Inicial
+			while(k < iterMax and erro >= tol):
+			###Execucao do metodo
+			\end{lstlisting}
+			
+			Enquanto, que o condicional presente dentro de \textit{while} resultar
+			verdadeiro(\textit{True}), o método iterativo irá executar.
+			
+			\textit{Obs: A variável 'erro' é definido 2 apenas para fim que o condicional da
+				iteração inicial resulte em verdadeiro, se não fosse definido, o método nunca
+				iria executar.}
+			
+			
+			
+			
+		}
 		
-		
-		
+		\end{alineas}
 
 		
 		\section{Algoritmo de Gauss-Jacob}
@@ -520,55 +560,10 @@ if(max_sassenfeld < 1):
 		Para $i = 1,2,...,n$, podemos reescrever o sistema na (2.2) seguinte forma:\\
 		$$x_i = \frac{b_i - \substack{\sum^{n} \\j=1,j \neq i}a_{ij}x_j}{a_{ii}}, i =
 		1,2,...,n.$$\\
-		até que o critério de parada seja satisfeito. Definiremos agora, o critério de
-		parada e o 
-		algoritmo de Gauss-Jacob.
+		até que o critério de parada seja satisfeito.
 		
-		\begin{alineas}
-			\item{\textbf{Critério de Parada}
-				Os critérios de parada são usados para fim de não manter o algoritmo rodando
-				quando o 
-				resultado já é o bastante preciso e quando, por algum motivo, não alcançar a
-				convergência.
-				Há dois critérios que encerrara a execução do método, são eles:
-				\subitem{\textbf{Máxima Iterações:}\\
-					Será quando o limite de iterações forem atingidas, que poderá ser o caso de
-					não convergência(serve para não sobrecarregar o computador quando não houver
-					convergência).
-				}
-				\subitem{\textbf{Critério de distância:}\\
-					Critério de distância avalia a precisão que o algoritmo chegou a partir do
-					módulo da diferença da iteração atual e da anterior se o valor, porém o erro de
-					cada variável do sistema tem que estar abaixo da tolerância para
-					ser satisfeito:
-					$$d^{(k)} = \substack{\max\\1 \leq i \leq n} |x_{i}^{(k)} - x_{i}^{(k-1)}| <
-					\varepsilon_1$$
-				}
-				
-				Então a condicional para execução do \textit{loop iterativo} do método, se torna
-				em Python:
-				
-				
-				\begin{lstlisting}
-				iterAtual = 0 #Zerando as Iteracoes
-				erro = 2      #Erro Inicial
-				while(k < iterMax and erro >= tol):
-				###Execucao do metodo
-				\end{lstlisting}
-				
-				Enquanto, que o condicional presente dentro de \textit{while} resultar
-				verdadeiro(\textit{True}), o método iterativo irá executar.
-				
-				\textit{Obs: A variável 'erro' é definido 2 apenas para fim que o condicional da
-					iteração inicial resulte em verdadeiro, se não fosse definido, o método nunca
-					iria executar.}
-				
-				
-				
-				
-			}
-			
-			\item{\textbf{Algoritmo de Gauss Jacobi:}\\
+
+		
 				Agora, com todas as variáveis definidas, definiremos o método iterativo usado.
 				Todos os
 				valores entram no algoritmo do método e são executadas até que ache os valores
@@ -577,30 +572,34 @@ if(max_sassenfeld < 1):
 				tamanhos totalmente distintos.
 				Seu desenvolvimento foi feito em Python, como apresentado logo abaixo:\\
 				\begin{lstlisting}
-				while(k < iterMax and erro >= tol):
-				erro = 0		#Redefine o erro para iteracao atual
-				
-				xant = x.copy() #Copia os valores de 'x' antigos
-				
-				for i in range(n):
-				soma = 0	#Redefine a somatoria para Iteracao atual
-				for j in range(n):
-				if(j != i):
+while(k < iterMax and erro >= tol):
+	erro = 0		#Redefine o erro para iteracao atual
+	
+	xant = x.copy() #Copia os valores de 'x' antigos
+	
+	for i in range(n):
+		soma = 0	#Redefine a somatoria para Iteracao atual
+		for j in range(n):
+			if(j != i):
 				soma = soma + float(A[i,j])*xant[j]  #Metodo de Gauss-Jabob
-				x[i] = (b[i] - soma)/float(A[i,i])		#Metodo de Gauss Jacob(se j = i)
-				if(abs(x[i]-xant[i])>erro):	#Acha o Maximo erro das raizes
-				erro = abs(x[i] - xant[i])
-				k +=1 #Incremento da Iteracao
-				\end{lstlisting}
+		x[i] = (b[i] - soma)/float(A[i,i]) #Metodo de G-Jacob(se j = i)
+		if(abs(x[i]-xant[i])>erro):	#Acha o Maximo erro das raizes
+			erro = abs(x[i] - xant[i])
+	k +=1 #Incremento da Iteracao\end{lstlisting}
 				
-			}	
-		\end{alineas}
+		
+	
 		
 		\section{Algoritmo Completo}
 		Apresentado abaixo o algoritmo completo om todas as definições e algumas f
 		erramentas para analise como o \textit{matplotlib}(para plotagem de gráfico).
 		
 		\lstinputlisting{gauss_jacobi.py}
+		
+		
+		
+		\section{Algoritmo de Gauss-Jacob}
+		
 		% ----------------------------------------------------------
 		\chapter{Resolução de Problemas}
 		Resolveremos problemas do cotiano para testar a veracidade do método, desempenho
